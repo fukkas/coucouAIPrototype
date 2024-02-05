@@ -5,20 +5,34 @@ import './home.css';
 const ImageDropZone = () => {
   const [images, setImages] = useState<{ name: string; type: string; data: string }[]>([]);
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
     const droppedFile = event.dataTransfer.files[0];
 
     if (droppedFile && droppedFile.type.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
         const newImage = {
           name: droppedFile.name,
           type: droppedFile.type,
           data: reader.result as string,
         };
         setImages((prevImages) => [newImage, ...prevImages]);
+
+        // Appel à l'API de prédiction
+        try {
+          const response = await fetch('/pages/api/predict', {
+            method: 'POST',
+            body: droppedFile,
+          });
+
+          const result = await response.text();
+          console.log('Résultat de la prédiction :', result);
+          // Mettez à jour votre interface avec les résultats de la prédiction
+        } catch (error) {
+          console.error('Erreur lors de la prédiction :', error);
+        }
       };
       reader.readAsDataURL(droppedFile);
     }
@@ -30,7 +44,7 @@ const ImageDropZone = () => {
 
   return (
     <main className='main-container'>
-      <div
+       <div
         className='drop-zone'
         onDrop={handleDrop}
         onDragOver={handleDragOver}
