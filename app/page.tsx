@@ -4,6 +4,7 @@ import './home.css';
 
 const ImageDropZone = () => {
   const [images, setImages] = useState<{ name: string; type: string; data: string }[]>([]);
+  const [imageNotUpload, setImageNotUpload] = useState<{ name: string; type: string; data: string } | undefined>();
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -18,23 +19,29 @@ const ImageDropZone = () => {
           type: droppedFile.type,
           data: reader.result as string,
         };
-        setImages((prevImages) => [newImage, ...prevImages]);
-
-        // Appel à l'API de prédiction
-        try {
-          const response = await fetch('/pages/api/predict', {
-            method: 'POST',
-            body: droppedFile,
-          });
-
-          const result = await response.text();
-          console.log('Résultat de la prédiction :', result);
-          // Mettez à jour votre interface avec les résultats de la prédiction
-        } catch (error) {
-          console.error('Erreur lors de la prédiction :', error);
-        }
+        setImageNotUpload(newImage);
       };
       reader.readAsDataURL(droppedFile);
+    }
+  };
+
+  const uploadFile = async () => {
+    if (imageNotUpload != null) {
+      try {
+        const response = await fetch('/pages/api/predict', {
+          method: 'POST',
+          body: new Blob([imageNotUpload.data]),
+        });
+
+        const result = await response.text();
+        console.log('Résultat de la prédiction :', result);
+
+        // Mettez à jour votre interface avec les résultats de la prédiction
+        setImages((prevImages) => [imageNotUpload, ...prevImages]);
+        setImageNotUpload(undefined);
+      } catch (error) {
+        console.error('Erreur lors de la prédiction :', error);
+      }
     }
   };
 
@@ -44,21 +51,28 @@ const ImageDropZone = () => {
 
   return (
     <main className='main-container'>
-       <div
-        className='drop-zone'
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
-        {images.length > 0 ? (
-          <img
-            src={images[0].data}
-            alt={images[0].name}
-            className='main-image'
-          />
-        ) : (
-          <p>Drag and drop picture here</p>
-        )}
+      <div className='dropContainer'>
+        <div
+          className='drop-zone'
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
+          {imageNotUpload ? (
+            <img
+              src={imageNotUpload.data}
+              alt={imageNotUpload.name}
+              className='main-image'
+            />
+          ) : (
+            <div></div>
+          )}
+          <div>
+            <p>Drag and drop picture here</p>
+          </div>
+        </div>
+        <button className="uploadBtn" onClick={uploadFile}><span className="uploadBtnSpan">Upload</span></button>
       </div>
+
       <div className='image-table-container'>
         <table className='image-table'>
           <thead>
