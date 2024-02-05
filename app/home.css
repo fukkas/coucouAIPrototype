@@ -1,0 +1,45 @@
+.main-container {
+    display: flex;
+    margin: 5%;
+}
+
+.drop-zone {
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #aaa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-table-container {
+    margin-left: 20px;
+    width: 50%;
+    background-color: azure;
+    border: 3px solid black;
+    border-radius: 6px;
+}
+
+.image-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+
+}
+
+.table-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid black;
+}
