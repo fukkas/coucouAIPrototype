@@ -10,9 +10,6 @@ const ImageDropZone = () => {
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
-    console.log(endpoint);
-
     const droppedFile = event.dataTransfer.files[0];
 
     if (droppedFile && droppedFile.type.startsWith('image/')) {
