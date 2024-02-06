@@ -7,9 +7,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const file = req.body;
 
-    const apiKey = process.env.REACT_APP_API_KEY;
-    const endpoint = process.env.REACT_APP_ENDPOINT;
-    const iterationId = process.env.REACT_APP_ITERATIONID;
+    const apiKey = process.env.NEXT_APP_API_KEY;
+    const endpoint = process.env.NEXT_APP_ENDPOINT;
+    const iterationId = process.env.NEXT_APP_ITERATIONID;
 
     try {
       const response = await axios.post(
