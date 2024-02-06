@@ -10,8 +10,8 @@ const ImageDropZone = () => {
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    const endpoint = process.env.REACT_APP_ENDPOINT;
-console.log(endpoint);
+    const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
+    console.log(endpoint);
 
     const droppedFile = event.dataTransfer.files[0];
 
@@ -32,7 +32,7 @@ console.log(endpoint);
   const uploadFile = async () => {
     if (imageNotUpload != null) {
       try {
-        const response = await fetch('/pages/api/predict', {
+        const response = await fetch('/pages/api/', {
           method: 'POST',
           body: new Blob([imageNotUpload.data]),
         });
