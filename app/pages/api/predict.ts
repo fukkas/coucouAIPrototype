@@ -7,9 +7,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const file = req.body;
 
-    const apiKey = '0b7c44517f024fa7bfbccd8080fea1c4';
-    const endpoint = 'https://catsvsdogsprototype-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/39fe0cd0-a9dc-4b79-8d41-fa8c0064385f/classify/iterations/CatsVsDogsModel-1/image';
-    const iterationId = '3c465be5-82ea-4b37-b21c-05e15529553f';
+    const apiKey = process.env.REACT_APP_API_KEY;
+    const endpoint = process.env.REACT_APP_ENDPOINT;
+    const iterationId = process.env.REACT_APP_ITERATIONID;
 
     try {
       const response = await axios.post(

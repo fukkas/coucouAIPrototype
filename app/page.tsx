@@ -2,12 +2,16 @@
 import React, { useState } from 'react';
 import './home.css';
 
+
 const ImageDropZone = () => {
   const [images, setImages] = useState<{ name: string; type: string; data: string }[]>([]);
   const [imageNotUpload, setImageNotUpload] = useState<{ name: string; type: string; data: string } | undefined>();
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+
+    const endpoint = process.env.REACT_APP_ENDPOINT;
+console.log(endpoint);
 
     const droppedFile = event.dataTransfer.files[0];
 
